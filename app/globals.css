@@ -75,8 +75,11 @@
 }
 
 @theme inline {
-  --font-sans: 'Geist', 'Geist Fallback';
-  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+  /* Cairo (Arabic + Latin) is loaded via next/font in layout.tsx as
+     --font-cairo, and Geist Mono as --font-geist-mono. We expose them as
+     Tailwind's font-sans / font-mono so the whole UI renders Arabic correctly. */
+  --font-sans: var(--font-cairo), 'Cairo', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, 'Geist Mono', monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -128,43 +131,33 @@
    Horse race game styles
    ========================================================== */
 
-/* Sprite-sheet animation: 8 frames per row, 3 rows.
-   `steps(8)` snaps to discrete frames. The animation walks the
-   background-position-x from 0 to negative the full sheet width, which is
-   provided per-element via the --sheet-w CSS variable so any size works.
-   Three keyframes are defined for tooling clarity but they are identical;
-   the duration provided via inline `animation` controls the speed. */
-@keyframes horse-run-idle {
-  from {
-    background-position-x: 0;
-  }
-  to {
-    background-position-x: calc(var(--sheet-w, 768px) * -1);
-  }
+/* GIF wrapper bounce animations. The horse GIFs supply their own gallop;
+   we just add a tiny vertical bounce + scale that varies per state to
+   make idle / comment / boost feel different visually. */
+.horse-gif-wrapper {
+  display: inline-block;
+  will-change: transform;
 }
-@keyframes horse-run-comment {
-  from {
-    background-position-x: 0;
-  }
-  to {
-    background-position-x: calc(var(--sheet-w, 768px) * -1);
-  }
+
+@keyframes horse-bounce-idle {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%      { transform: translateY(-1px) scale(1.005); }
 }
-@keyframes horse-run-boost {
-  from {
-    background-position-x: 0;
-  }
-  to {
-    background-position-x: calc(var(--sheet-w, 768px) * -1);
-  }
+@keyframes horse-bounce-run {
+  0%, 100% { transform: translateY(0) scale(1.02); }
+  50%      { transform: translateY(-3px) scale(1.04); }
+}
+@keyframes horse-bounce-boost {
+  0%, 100% { transform: translateY(0) scale(1.08); }
+  50%      { transform: translateY(-5px) scale(1.12); }
 }
 
 /* Dashed track line that scrolls leftward (gives a sense of running). */
 .track-dashes {
   background-image: repeating-linear-gradient(
     to right,
-    rgba(255, 255, 255, 0.65) 0,
-    rgba(255, 255, 255, 0.65) 12px,
+    rgba(255, 255, 255, 0.85) 0,
+    rgba(255, 255, 255, 0.85) 12px,
     transparent 12px,
     transparent 24px
   );
@@ -175,29 +168,22 @@
 }
 
 @keyframes track-scroll {
-  from {
-    background-position-x: 0;
-  }
-  to {
-    background-position-x: -24px;
-  }
+  from { background-position-x: 0; }
+  to   { background-position-x: -24px; }
 }
 
 /* Spinning radial light rays for the winner modal */
 @keyframes rays-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
-/* For Streamlabs / OBS: keep the body fully transparent around the stage
-   so the panel can be overlaid on top of the live feed. */
+/* The page itself uses the warm desert tone from Horse-Race-main when run
+   standalone. The race stage already paints its own background, so this is
+   just the surrounding canvas. */
 html,
 body {
-  background: transparent !important;
   margin: 0;
   padding: 0;
+  background: #B6771D;
 }

@@ -1,6 +1,5 @@
 "use client"
 
-import { ANIM_DURATION_BOOST, ANIM_DURATION_COMMENT, ANIM_DURATION_IDLE } from "@/lib/constants"
 import type { HorseState } from "@/lib/types"
 
 interface HorseProps {
@@ -9,54 +8,62 @@ interface HorseProps {
   width?: number
   /** Vertical display size in px */
   height?: number
+  /** 1..6 — picks which horse GIF to use so all 22 lanes feel unique */
+  variant?: number
 }
 
 /**
- * Renders a single galloping horse using a 3-row spritesheet:
- *   row 0 = idle (LIGHT TROT)
- *   row 1 = comment-run (NORMAL RUN)
- *   row 2 = boost (MAXIMUM SPRINT)
+ * Renders a single galloping horse using the GIFs from Horse-Race-main.
+ *   horse1.gif … horse6.gif (each is its own animated gallop loop).
  *
- * The cleaned spritesheet is 8 cols × 3 rows of 128×128 SQUARE tiles
- * (1024×384 total). Render at any size you want, but keep the on-screen
- * aspect ratio 1:1 to match the source tile shape.
- *
- * The image has 8 frames per row, animated with `steps(8)` so movement is
- * frame-by-frame. The duration changes per state: 1.2s / 0.6s / 0.25s.
+ * The GIF itself supplies the gallop animation. State is reflected by a
+ * subtle CSS bounce + scale on the wrapper:
+ *   idle    → gentle trot bounce
+ *   comment → normal run bounce
+ *   boost   → fast sprint bounce + slight scale-up
  */
-export function Horse({ state, width = 64, height = 64 }: HorseProps) {
-  // 8 frames wide, 3 rows tall (square tiles).
-  const sheetW = width * 8
-  const sheetH = height * 3
-  const yOffset = state === "idle" ? 0 : state === "comment" ? -height : -height * 2
-  const duration =
-    state === "idle"
-      ? ANIM_DURATION_IDLE
+export function Horse({ state, width = 80, height = 50, variant = 1 }: HorseProps) {
+  const v = ((variant - 1) % 6) + 1
+  const src = `/horses/horse${v}.gif`
+
+  const animationName =
+    state === "boost"
+      ? "horse-bounce-boost"
       : state === "comment"
-        ? ANIM_DURATION_COMMENT
-        : ANIM_DURATION_BOOST
+        ? "horse-bounce-run"
+        : "horse-bounce-idle"
+
+  const duration = state === "boost" ? "0.18s" : state === "comment" ? "0.32s" : "0.6s"
 
   return (
     <div
       aria-hidden
-      className="horse-sprite"
-      style={
-        {
-          width,
-          height,
-          backgroundImage: "url(/horse-sprite.png)",
-          backgroundSize: `${sheetW}px ${sheetH}px`,
-          backgroundPositionX: "0px",
-          backgroundPositionY: `${yOffset}px`,
-          backgroundRepeat: "no-repeat",
-          // Provide the sheet width to the keyframe via a CSS variable so the
-          // animation walks the full row regardless of the rendered size.
-          ["--sheet-w" as string]: `${sheetW}px`,
-          animation: `horse-run-${state} ${duration}s steps(8) infinite`,
+      className="horse-gif-wrapper"
+      style={{
+        width,
+        height,
+        animation: `${animationName} ${duration} ease-in-out infinite`,
+      }}
+    >
+      <img
+        src={src || "/placeholder.svg"}
+        alt=""
+        width={width}
+        height={height}
+        draggable={false}
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "contain",
+          filter:
+            state === "boost"
+              ? "drop-shadow(0 2px 4px rgba(0,0,0,0.6)) saturate(1.2) brightness(1.1)"
+              : "drop-shadow(0 2px 3px rgba(0,0,0,0.5))",
           imageRendering: "auto",
-          filter: "drop-shadow(0 2px 2px rgba(0,0,0,0.4))",
-        } as React.CSSProperties
-      }
-    />
+          userSelect: "none",
+          pointerEvents: "none",
+        }}
+      />
+    </div>
   )
 }

@@ -11,7 +11,7 @@ import { useWebSocket } from "@/hooks/use-websocket"
 import { STAGE_HEIGHT, STAGE_WIDTH, WS_URL } from "@/lib/constants"
 
 const HEADER_H = 70
-const SIDE_W = 300
+const SIDE_W = 280
 
 export default function Page() {
   const { horses, standings, winners, roundNumber, handleMessage } = useRaceEngine()
@@ -26,14 +26,15 @@ export default function Page() {
 
   return (
     <main
-      className="relative mx-auto select-none overflow-hidden text-amber-50"
+      className="relative mx-auto select-none overflow-hidden"
       dir="rtl"
       style={{
         width: STAGE_WIDTH,
         height: STAGE_HEIGHT,
-        background:
-          "radial-gradient(ellipse at 50% 0%, #44260f 0%, #1a0e05 70%, #000 100%)",
-        boxShadow: "0 0 80px rgba(0,0,0,0.8)",
+        // Outer black frame like Horse-Race-main's `border-4 border-black`
+        border: "4px solid #000",
+        background: "#B6771D",
+        boxShadow: "0 0 60px rgba(0,0,0,0.55)",
       }}
     >
       {/* Top: Classico panel */}

@@ -16,9 +16,9 @@ export const ANIM_DURATION_IDLE = 1.2
 export const ANIM_DURATION_COMMENT = 0.6
 export const ANIM_DURATION_BOOST = 0.25
 
-// Layout
-export const STAGE_WIDTH = 850
-export const STAGE_HEIGHT = 1000
+// Layout — large enough to comfortably fit 22 lanes
+export const STAGE_WIDTH = 1100
+export const STAGE_HEIGHT = 1080
 
 // WebSocket
 export const WS_URL = "ws://localhost:8080"

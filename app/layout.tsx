@@ -1,10 +1,21 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Cairo, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
+// Cairo is a high-quality Arabic display font that also covers Latin
+// characters, so we can use it as the single sans face for the whole UI.
+const cairo = Cairo({
+  subsets: ['arabic', 'latin'],
+  weight: ['400', '600', '700', '800', '900'],
+  variable: '--font-cairo',
+  display: 'swap',
+})
+const geistMono = Geist_Mono({
+  subsets: ['latin'],
+  variable: '--font-geist-mono',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: 'سباق الخيول العربي · Arab Horse Race',
@@ -14,8 +25,8 @@ export const metadata: Metadata = {
 }
 
 export const viewport = {
-  themeColor: '#1a0e05',
-  width: 1400,
+  themeColor: '#B6771D',
+  width: 1200,
 }
 
 export default function RootLayout({
@@ -24,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="ar" dir="rtl" className="bg-background">
+    <html lang="ar" dir="rtl" className={`${cairo.variable} ${geistMono.variable}`}>
       <body className="font-sans antialiased">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
