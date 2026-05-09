@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="githubqafaraz">
+    <meta name="keywords" content="githubqafaraz">
+    <meta name="author" content="githubqafaraz">
+    <title>Horse race</title>
+    <link rel="stylesheet" href="/css/import.css">
+    <link rel="icon" href="./icon/github.svg" type="image/icon type">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="w-full bg-[#B6771D]">
+    <div class="max-w-[1320px] mx-auto h-full py-2 px-2 md:px-4" id="desert">
+        <div
+            class="relative w-full border-4 border-black bg-[#D9A066] overflow-hidden flex flex-col justify-between px-4 md:px-8 py-2 md:py-4">
+            <img src="img/horse1.gif" alt="1 number" class="w-20 h-16 md:w-[120px] md:h-[90px] cursor-pointer relative"
+                id="horse1">
+            <img src="img/horse2.gif" alt="2 number" class="w-20 h-16 md:w-[120px] md:h-[90px] cursor-pointer relative"
+                id="horse2">
+            <img src="img/horse3.gif" alt="3 number" class="w-20 h-16 md:w-[120px] md:h-[90px] cursor-pointer relative"
+                id="horse3">
+            <img src="img/horse4.gif" alt="4 number" class="w-20 h-16 md:w-[120px] md:h-[90px] cursor-pointer relative"
+                id="horse4">
+            <img src="img/horse5.gif" alt="5 number" class="w-20 h-16 md:w-[120px] md:h-[90px] cursor-pointer relative"
+                id="horse5">
+            <img src="img/horse6.gif" alt="6 number" class="w-20 h-16 md:w-[120px] md:h-[90px] cursor-pointer relative"
+                id="horse6">
+            <div class="absolute top-0 right-10 md:right-[50px] h-full w-1 md:w-[5px] bg-white" id="finish-line"></div>
+        </div>
+    </div>
+    <div class="flex flex-col justify-center items-center gap-2 px-2">
+        <div id="explanation" class="text-base md:text-lg text-white font-semibold text-center">
+            The horses are ready to race
+        </div>
+        <div class="mt-4 flex flex-col sm:flex-row gap-2 sm:gap-4">
+            <button id="start-button"
+                class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition duration-200 cursor-pointer">
+                Start Race
+            </button>
+            <button id="stop-button"
+                class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition duration-200 cursor-pointer">
+                Stop Race
+            </button>
+            <button id="reset-button"
+                class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition duration-200 cursor-pointer">
+                Reset Race
+            </button>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+
+
+
+</html>
