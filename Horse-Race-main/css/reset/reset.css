@@ -1,0 +1,26 @@
+/*꧁꧂          ꧁꧂*/
+/* ϙᴀғᴀʀ */
+/*꧁꧂          ꧁꧂*/
+
+* {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+a {
+    text-decoration: none;
+}
+
+ol,
+ul {
+    list-style-type: none;
+}
+
+::selection {
+    color: #000dff;
+    background-color: #ff0000;
+}
+
+#finish-line {
+    background: repeating-linear-gradient(#ffffff 0px, #ffffff 10px, #000000 10px, #000000 20px);
+}
